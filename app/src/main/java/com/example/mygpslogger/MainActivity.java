@@ -11,7 +11,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +20,6 @@ import android.widget.Toast;
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements LOCListenerInterface {
-    private Location lastLocation;
     private LocationManager locManager;
     private MyLocListener myLocListener;
     private TextView speed, latitude, longitude, timer;
@@ -32,15 +30,16 @@ public class MainActivity extends AppCompatActivity implements LOCListenerInterf
     String fileName="noName";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fileManager = new FileManager(this, this);
         Init();
     }
 
-    private void Init() {
-        final Handler handler = new Handler();
+    private void Init()
+    {
         timer = findViewById(R.id.timer);
         latitude = findViewById(R.id.latitude);
         longitude = findViewById(R.id.longitude);
@@ -71,7 +70,8 @@ public class MainActivity extends AppCompatActivity implements LOCListenerInterf
     }
 
 
-    private void runTimer() {
+    private void runTimer()
+    {
         final Handler handler = new Handler();
         handler.post(new Runnable() {
             @Override
@@ -93,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements LOCListenerInterf
     }
 
 
-    private void CheckPermissions() {
+    private void CheckPermissions()
+    {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
         } else {
@@ -102,7 +103,8 @@ public class MainActivity extends AppCompatActivity implements LOCListenerInterf
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull @org.jetbrains.annotations.NotNull String[] permissions, @NonNull @org.jetbrains.annotations.NotNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull @org.jetbrains.annotations.NotNull String[] permissions, @NonNull @org.jetbrains.annotations.NotNull int[] grantResults)
+    {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100 && grantResults[0] == RESULT_OK) {
             CheckPermissions();
@@ -112,7 +114,8 @@ public class MainActivity extends AppCompatActivity implements LOCListenerInterf
     }
 
     @Override
-    public void onLocationChanged(Location loc) {
+    public void onLocationChanged(Location loc) //GPS coordinates was updated
+    {
         if (isInProcess) {
             latitude.setText(String.valueOf(loc.getLatitude()));
             longitude.setText(String.valueOf(loc.getLongitude()));

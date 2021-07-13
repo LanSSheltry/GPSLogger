@@ -13,7 +13,7 @@ import java.io.FileOutputStream;
 public class FileManager {
 
     int index=0;
-    Context ctx;
+    Context ctx; //MainActivity context
     Activity activity;
 
     private static String[] PERMISSIONS_STORAGE = {
@@ -27,11 +27,12 @@ public class FileManager {
         this.activity=activity;
     }
 
-    void writeToFile(String dataString, String nameOfFile) {
+    void writeToFile(String dataString, String nameOfFile) //This method writes input string to file with nameOfFile name
+    {
         verifyStoragePermissions(activity);
-        File f = new File("/sdcard/GPSLogger/"+nameOfFile+".txt");
+        File f = new File("/sdcard/GPSLogger/"+nameOfFile+".txt"); //Creating file in directory
         try {
-            f.createNewFile();
+            f.mkdirs();
             FileOutputStream fout = new FileOutputStream(f, true);
             fout.write(dataString.getBytes());
             fout.close();
@@ -40,7 +41,7 @@ public class FileManager {
         }
     }
 
-    public String getAvailableNameOfFile()
+    public String getAvailableNameOfFile() //For getting available name for every next .txt file
     {
         String fileName="LOG_FILE_";
         int ctr=0;
@@ -66,7 +67,8 @@ public class FileManager {
         return fileName+String.valueOf(index);
     }
 
-    private static void verifyStoragePermissions(Activity activity) {
+    private static void verifyStoragePermissions(Activity activity)
+    {
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
